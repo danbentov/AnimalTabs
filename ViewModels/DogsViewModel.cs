@@ -33,11 +33,17 @@ namespace ShellLessonStep2.ViewModels
         {
             this.animalService = service;
             Dogs = new ObservableCollection<Animal>();
-            Dogs = (ObservableCollection<Animal>)this.animalService.GetDogs();
             IsRefreshing = false;
+            ReadDogs();
+        }
+        private async void ReadDogs()
+        {
+            AnimalService service = new AnimalService();
+            List<Animal> list = await service.GetDogs();
+            this.Dogs = new ObservableCollection<Animal>(list);
         }
 
-       public ICommand DeleteCommand => new Command<Animal>(RemoveDog);
+        public ICommand DeleteCommand => new Command<Animal>(RemoveDog);
 
         void RemoveDog(Animal dog)
         {
@@ -52,7 +58,7 @@ namespace ShellLessonStep2.ViewModels
         private async void Refresh()
         {
 
-            Dogs = (ObservableCollection<Animal>)this.animalService.GetDogs();
+            ReadDogs();
 
             IsRefreshing = false;
         }

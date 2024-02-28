@@ -8,6 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Microsoft.Maui.Controls;
+
+
 
 namespace ShellLessonStep2.ViewModels
 {
@@ -33,8 +36,14 @@ namespace ShellLessonStep2.ViewModels
         {
             this.animalService = service;
             Monkeys = new ObservableCollection<Animal>();
-            Monkeys = (ObservableCollection<Animal>)this.animalService.GetMonkeys();
             IsRefreshing = false;
+            ReadMonkeys();
+        }
+        private async void ReadMonkeys()
+        {
+            AnimalService service = new AnimalService();
+            List<Animal> list = await service.GetMonkeys();
+            this.Monkeys = new ObservableCollection<Animal>(list);
         }
 
         public ICommand DeleteCommand => new Command<Animal>(RemoveMonkey);
@@ -52,7 +61,7 @@ namespace ShellLessonStep2.ViewModels
         private async void Refresh()
         {
 
-            Monkeys = (ObservableCollection<Animal>)this.animalService.GetMonkeys();
+            ReadMonkeys();
 
             IsRefreshing = false;
         }

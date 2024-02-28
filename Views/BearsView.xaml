@@ -5,7 +5,8 @@
              Title="BearsView">
     <RefreshView 
      Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}">
-        <VerticalStackLayout>
+        <ScrollView>
+            <VerticalStackLayout>
 
 
             <CollectionView ItemsSource="{Binding Bears}" x:Name="theCollectionView"
@@ -53,5 +54,6 @@
             </CollectionView>
 
         </VerticalStackLayout>
+        </ScrollView>
     </RefreshView>
 </ContentPage>
