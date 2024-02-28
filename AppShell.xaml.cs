@@ -13,10 +13,11 @@ public partial class AppShell : Shell
 		RegisterRoutings();
 	}
 
-	private void RegisterRoutings()
+    private void RegisterRoutings()
 	{
 		Routing.RegisterRoute("modalPage", typeof(ModalPage));
-	}
+        Routing.RegisterRoute("animalDetails", typeof(AnimalDetailsView));
+    }
 
     public ICommand InfoCommand { get; set; }
 	private void OnInfoClicked()

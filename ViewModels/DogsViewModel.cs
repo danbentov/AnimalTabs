@@ -1,4 +1,4 @@
-﻿using CoreML;
+﻿
 using ShellLessonStep2.Models;
 using ShellLessonStep2.Services;
 using System;
@@ -37,6 +37,16 @@ namespace ShellLessonStep2.ViewModels
             IsRefreshing = false;
         }
 
+       public ICommand DeleteCommand => new Command<Animal>(RemoveDog);
+
+        void RemoveDog(Animal dog)
+        {
+            if (Dogs.Contains(dog))
+            {
+                Dogs.Remove(dog);
+            }
+        }
+
         #region Refresh View
         public ICommand RefreshCommand => new Command(Refresh);
         private async void Refresh()
@@ -61,5 +71,37 @@ namespace ShellLessonStep2.ViewModels
             }
         }
         #endregion
+
+
+        private object selectedDog;
+        public object SelectedDog
+        {
+            get
+            {
+                return this.selectedDog;
+            }
+            set
+            {
+                this.selectedDog = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ICommand SingleSelectCommand => new Command(OnSingleSelectDog);
+
+        async void OnSingleSelectDog()
+        {
+            if (SelectedDog != null)
+            {
+                var navParam = new Dictionary<string, object>()
+            {
+                { "selectedAnimal",SelectedDog}
+            };
+                //Add goto here to show details
+                await Shell.Current.GoToAsync("animalDetails", navParam);
+
+                SelectedDog = null;
+            }
+        }
     }
 }
